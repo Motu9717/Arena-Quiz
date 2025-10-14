@@ -3,26 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arena Quiz</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>My Website with Nemesis Background</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            /* Set the background image to the one you provided */
+            background-image: url('Nemesis_Background.jpg'); /* Make sure this filename matches your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            color: white; /* Default text color for the page */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Take full height of the body */
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in the element's total width and height */
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds shadow for better readability */
+        }
+
+        p {
+            font-size: 1.2em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <h1>Arena Quiz</h1>
-        <div class="quiz-container" id="quiz">
-            <h2 id="question-text">Question goes here</h2>
-            <div id="answer-buttons" class="btn-grid">
-                </div>
-            <div id="result-container" class="result-container hide">
-                </div>
-            <div class="controls">
-                <button id="next-btn" class="next-btn hide">Restart</button>
-            </div>
-        </div>
+    <div class="container">
+        <h1>Welcome to Nemesis World!</h1>
+        <p>Explore the grandeur of ancient architecture and distant skies.</p>
+        <p>This is a placeholder for your website content.</p>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
