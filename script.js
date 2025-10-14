@@ -10,7 +10,7 @@ let quizQuestions = [];
 let currentQuestionIndex;
 let score;
 
-// Your full list of 30+ questions is now included
+// Your full list of 30+ questions
 const allQuestions = [
     {
         question: "What is Nemesis’s core offering?",
@@ -320,10 +320,10 @@ function startQuiz() {
     resultContainerElement.innerHTML = '';
     questionTextElement.style.display = 'block';
     
-    // Ensure the next button correctly handles quiz progression, not restarting
-    nextButton.removeEventListener('click', startQuiz); // Remove old listener if exists
-    nextButton.addEventListener('click', handleNextButton); // Add new one for quiz flow
-    nextButton.classList.add('hide'); // Hide it initially until an answer is selected
+    // Ensure the next button correctly handles quiz progression
+    nextButton.removeEventListener('click', showWelcomeScreen); // Remove old listener if exists
+    nextButton.addEventListener('click', handleNextButton);
+    nextButton.classList.add('hide'); // Hide it initially
 
     setNextQuestion();
 }
@@ -377,7 +377,7 @@ function selectAnswer(e) {
     if (currentQuestionIndex < quizQuestions.length - 1) {
         nextButton.innerText = "Next Question";
     } else {
-        nextButton.innerText = "Show Results"; // Changed from "Finish" for clarity
+        nextButton.innerText = "Show Results";
     }
 
     nextButton.classList.remove('hide'); // Show the next/finish button
@@ -409,13 +409,15 @@ function showResult() {
     
     resultContainerElement.appendChild(resultTitle);
 
-    // Prepare restart button
-    nextButton.innerText = "Restart Quiz";
-    nextButton.removeEventListener('click', handleNextButton); // Remove quiz flow listener
-    nextButton.addEventListener('click', startQuiz); // Add restart listener
+    // Prepare restart button to go to the welcome screen
+    nextButton.innerText = "Play Again";
+    nextButton.removeEventListener('click', handleNextButton);
+
+    nextButton.addEventListener('click', showWelcomeScreen);
     nextButton.classList.remove('hide');
 }
 
-// Initially, only the welcome screen is visible
-welcomeScreen.classList.remove('hide');
-quizContainer.classList.add('hide');
+function showWelcomeScreen() {
+    quizContainer.classList.add('hide');
+    welcomeScreen.classList.remove('hide');
+}
