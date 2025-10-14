@@ -1,14 +1,15 @@
 const questionTextElement = document.getElementById('question-text');
 const answerButtonsElement = document.getElementById('answer-buttons');
+const resultContainerElement = document.getElementById('result-container');
 const nextButton = document.getElementById('next-btn');
-const resultTextElement = document.getElementById('result-text');
 
 let quizQuestions = []; 
-let currentQuestionIndex, score;
-let quizEndedPrematurely = false; 
+let currentQuestionIndex;
+let userAnswers = []; // New array to store the user's choices
 
-// --- ALL OF YOUR NEW QUESTIONS ARE HERE ---
+// The full list of your questions remains here
 const allQuestions = [
+    // ... (all 33 of your Nemesis questions go here) ...
     {
         question: "What is Nemesis’s core offering?",
         answers: [
@@ -18,276 +19,8 @@ const allQuestions = [
             { text: "A stablecoin issuance platform", correct: false }
         ]
     },
-    {
-        question: "Which term describes the novel liquidity framework used by Nemesis?",
-        answers: [
-            { text: "Automated Market Maker (AMM)", correct: false },
-            { text: "Order Book Matching Engine", correct: false },
-            { text: "Omni-Directional Market Maker (OMM)", correct: true },
-            { text: "Centralized Liquidity Pool (CLP)", correct: false }
-        ]
-    },
-    {
-        question: "What feature allows Nemesis users to trade with leverage?",
-        answers: [
-            { text: "10× margin lending", correct: false },
-            { text: "Futures contracts", correct: false },
-            { text: "Embedded leverage up to 5×", correct: true },
-            { text: "Options trading", correct: false }
-        ]
-    },
-    {
-        question: "Which of the following is not a characteristic of Nemesis’s design?",
-        answers: [
-            { text: "Oracle independence", correct: false },
-            { text: "Fully decentralized architecture", correct: false },
-            { text: "Permissioned market makers", correct: true },
-            { text: "On-chain trading, market making, and liquidations", correct: false }
-        ]
-    },
-    {
-        question: "How does Nemesis achieve price feeds without relying on external oracles?",
-        answers: [
-            { text: "By using centralized price feeds", correct: false },
-            { text: "Through a native Time-Weighted Average Price (TWAP) oracle", correct: true },
-            { text: "Via aggregated external oracles like Chainlink", correct: false },
-            { text: "By letting users submit their own prices", correct: false }
-        ]
-    },
-    {
-        question: "What benefit do liquidity providers get on Nemesis?",
-        answers: [
-            { text: "Only trading fees", correct: false },
-            { text: "Only interest income", correct: false },
-            { text: "Both trading fees and interest income", correct: true },
-            { text: "Fixed returns guaranteed by the protocol", correct: false }
-        ]
-    },
-    {
-        question: "In Nemesis, is the shorting of on-chain tokens done via derivatives?",
-        answers: [
-            { text: "Yes, via perpetual futures", correct: false },
-            { text: "Yes, via options", correct: false },
-            { text: "No, it is non-derivative design", correct: true },
-            { text: "Only via margin loans", correct: false }
-        ]
-    },
-    {
-        question: "For which blockchains is Nemesis built to operate?",
-        answers: [
-            { text: "Only Ethereum", correct: false },
-            { text: "Bitcoin and Ethereum", correct: false },
-            { text: "EVM-compatible chains including Ethereum", correct: true },
-            { text: "Only layer-2 chains", correct: false }
-        ]
-    },
-    {
-        question: "Which phrase best summarizes Nemesis’s transparency?",
-        answers: [
-            { text: "Off-chain trade matching", correct: false },
-            { text: "Third-party custodians control trades", correct: false },
-            { text: "All trades, market making, and liquidations occur on-chain", correct: true },
-            { text: "Partially centralized clearinghouse", correct: false }
-        ]
-    },
-    {
-        question: "Which of the following is not highlighted as a design goal?",
-        answers: [
-            { text: "Simplicity in user experience", correct: false },
-            { text: "Permissionless liquidity provision", correct: false },
-            { text: "Embedded leverage", correct: false },
-            { text: "Privacy via anonymous transactions", correct: true }
-        ]
-    },
-    {
-        question: "Nemesis allows users to long or short tokens without using which type of traditional instrument?",
-        answers: [
-            { text: "Spot trading", correct: false },
-            { text: "Derivatives", correct: true },
-            { text: "Liquidity pools", correct: false },
-            { text: "LP tokens", correct: false }
-        ]
-    },
-    {
-        question: "What makes Nemesis different from perpetual futures platforms when shorting assets?",
-        answers: [
-            { text: "It charges no fees", correct: false },
-            { text: "It uses off-chain execution", correct: false },
-            { text: "It uses a non-derivative mechanism", correct: true },
-            { text: "It requires KYC", correct: false }
-        ]
-    },
-    {
-        question: "Which best describes the OMM (Omni-Directional Market Maker)?",
-        answers: [
-            { text: "A pool that only supports longs", correct: false },
-            { text: "A centralized liquidity hub", correct: false },
-            { text: "A market maker that supports both long and short flows", correct: true },
-            { text: "A layer-2 rollup", correct: false }
-        ]
-    },
-    {
-        question: "Why doesn’t Nemesis need Chainlink or other oracle providers?",
-        answers: [
-            { text: "It uses CEX prices", correct: false },
-            { text: "It has no pricing", correct: false },
-            { text: "It has a built-in TWAP oracle", correct: true },
-            { text: "It copies Uniswap directly", correct: false }
-        ]
-    },
-    {
-        question: "Which feature enables leveraged exposure on Nemesis?",
-        answers: [
-            { text: "Collateralized loans", correct: false },
-            { text: "Flash loans", correct: false },
-            { text: "Embedded leverage in the protocol", correct: true },
-            { text: "Option premiums", correct: false }
-        ]
-    },
-    {
-        question: "Which statement about Nemesis trading is true?",
-        answers: [
-            { text: "Trades are matched off-chain", correct: false },
-            { text: "Market making is done by custodians", correct: false },
-            { text: "Everything (trading, market making, liquidations) is on-chain", correct: true },
-            { text: "Only liquidations are on-chain", correct: false }
-        ]
-    },
-    {
-        question: "Which of the following is NOT required to create a market on Nemesis?",
-        answers: [
-            { text: "Deploy OMM pool", correct: false },
-            { text: "Provide liquidity", correct: false },
-            { text: "Get permission from admins", correct: true },
-            { text: "Set parameters", correct: false }
-        ]
-    },
-    {
-        question: "How do liquidity providers earn on Nemesis?",
-        answers: [
-            { text: "Only governance rewards", correct: false },
-            { text: "Only staking emissions", correct: false },
-            { text: "Trading fees + interest income", correct: true },
-            { text: "Token airdrops only", correct: false }
-        ]
-    },
-    {
-        question: "Which of the following is a design goal of Nemesis?",
-        answers: [
-            { text: "Centralized market makers", correct: false },
-            { text: "Fully decentralized architecture", correct: true },
-            { text: "KYC-gated access", correct: false },
-            { text: "Fixed return guarantees", correct: false }
-        ]
-    },
-    {
-        question: "Which chains can Nemesis run on?",
-        answers: [
-            { text: "Bitcoin only", correct: false },
-            { text: "Solana only", correct: false },
-            { text: "EVM-compatible blockchains", correct: true },
-            { text: "Centralized servers", correct: false }
-        ]
-    },
-    {
-        question: "What does “oracle independence” mean in Nemesis?",
-        answers: [
-            { text: "Prices never change", correct: false },
-            { text: "Prices are derived internally without external feeds", correct: true },
-            { text: "CEX prices are used", correct: false },
-            { text: "Users manually set prices", correct: false }
-        ]
-    },
-    {
-        question: "Which user type directly benefits from transparent liquidations?",
-        answers: [
-            { text: "Only traders", correct: false },
-            { text: "Only devs", correct: false },
-            { text: "Traders and liquidity providers", correct: true },
-            { text: "No one", correct: false }
-        ]
-    },
-    {
-        question: "If Nemesis is fully on-chain, what does that imply?",
-        answers: [
-            { text: "No transparency", correct: false },
-            { text: "Admins execute trades manually", correct: false },
-            { text: "All actions are publicly verifiable", correct: true },
-            { text: "Custodians hold assets", correct: false }
-        ]
-    },
-    {
-        question: "Why is Nemesis considered permissionless?",
-        answers: [
-            { text: "It is centralized", correct: false },
-            { text: "Anyone can trade or provide liquidity freely", correct: true },
-            { text: "Only whales can use it", correct: false },
-            { text: "All trades need approval", correct: false }
-        ]
-    },
-    {
-        question: "How does Nemesis simplify leverage compared to other DeFi platforms?",
-        answers: [
-            { text: "Requires multiple steps", correct: false },
-            { text: "Uses complex derivative contracts", correct: false },
-            { text: "Embeds leverage directly in trading", correct: true },
-            { text: "Leverage must be borrowed from users", correct: false }
-        ]
-    },
-    {
-        question: "Which statement is FALSE?",
-        answers: [
-            { text: "Nemesis supports shorting", correct: false },
-            { text: "Nemesis uses OMM", correct: false },
-            { text: "Nemesis requires external oracles", correct: true },
-            { text: "Liquidity providers earn multiple revenue streams", correct: false }
-        ]
-    },
-    {
-        question: "What happens when a trader is liquidated on Nemesis?",
-        answers: [
-            { text: "Loss is absorbed by protocol treasury", correct: false },
-            { text: "Liquidation process is executed on-chain", correct: true },
-            { text: "Loss is ignored", correct: false },
-            { text: "Admin manually settles", correct: false }
-        ]
-    },
-    {
-        question: "Which system replaces the traditional AMM model?",
-        answers: [
-            { text: "DEX aggregator", correct: false },
-            { text: "Omni-Directional Market Maker (OMM)", correct: true },
-            { text: "Order book relayer", correct: false },
-            { text: "Yield optimizer", correct: false }
-        ]
-    },
-    {
-        question: "Which of the following is NOT a benefit of OMM?",
-        answers: [
-            { text: "Supports two-sided markets", correct: false },
-            { text: "Handles leverage", correct: false },
-            { text: "Improves liquidity efficiency", correct: false },
-            { text: "Centralizes price control", correct: true }
-        ]
-    },
-    {
-        question: "Why is Nemesis more transparent than CEXs?",
-        answers: [
-            { text: "It hides trading data", correct: false },
-            { text: "All logic is on-chain and verifiable", correct: true },
-            { text: "It uses bots to mask trades", correct: false },
-            { text: "It only shows aggregated metrics", correct: false }
-        ]
-    },
-    {
-        question: "Which approach to market creation fits Nemesis?",
-        answers: [
-            { text: "Requires admin listing", correct: false },
-            { text: "Only supports top 10 tokens", correct: false },
-            { text: "Permissionless market deployment", correct: true },
-            { text: "Must apply for approval", correct: false }
-        ]
-    },
+    // (I've included just one for brevity, but you should have your full list)
+    // Paste your full list of 33 question objects here
     {
         question: "In Nemesis, who controls funds used in trading?",
         answers: [
@@ -299,25 +32,32 @@ const allQuestions = [
     }
 ];
 
-// --- THE REST OF THE QUIZ LOGIC (NO CHANGES NEEDED BELOW) ---
 
-nextButton.addEventListener('click', handleNextButton);
+nextButton.addEventListener('click', startQuiz);
 
 function startQuiz() {
     const shuffledQuestions = allQuestions.sort(() => Math.random() - 0.5);
     quizQuestions = shuffledQuestions.slice(0, 3);
     
     currentQuestionIndex = 0;
-    score = 0;
-    quizEndedPrematurely = false;
-    resultTextElement.classList.add('hide');
-    nextButton.innerText = 'Next';
+    userAnswers = []; // Reset answers for the new quiz
+    
+    resultContainerElement.classList.add('hide');
+    resultContainerElement.innerHTML = '';
+    questionTextElement.style.display = 'block';
+    nextButton.classList.add('hide');
+
     setNextQuestion();
 }
 
 function setNextQuestion() {
     resetState();
-    showQuestion(quizQuestions[currentQuestionIndex]);
+    if (currentQuestionIndex < quizQuestions.length) {
+        showQuestion(quizQuestions[currentQuestionIndex]);
+    } else {
+        // All questions answered, now show the review
+        showReview();
+    }
 }
 
 function showQuestion(question) {
@@ -326,16 +66,12 @@ function showQuestion(question) {
         const button = document.createElement('button');
         button.innerText = answer.text;
         button.classList.add('btn');
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
         button.addEventListener('click', selectAnswer);
         answerButtonsElement.appendChild(button);
     });
 }
 
 function resetState() {
-    nextButton.classList.add('hide');
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild);
     }
@@ -343,57 +79,63 @@ function resetState() {
 
 function selectAnswer(e) {
     const selectedButton = e.target;
-    const isCorrect = selectedButton.dataset.correct === "true";
+    // Store the text of the selected answer
+    userAnswers.push(selectedButton.innerText);
+    currentQuestionIndex++;
+    setNextQuestion();
+}
 
-    Array.from(answerButtonsElement.children).forEach(button => {
-        button.disabled = true;
+function showReview() {
+    resetState();
+    questionTextElement.style.display = 'none'; // Hide the main question text
+    resultContainerElement.classList.remove('hide');
+    
+    let score = 0;
+
+    quizQuestions.forEach((question, index) => {
+        const userAnswerText = userAnswers[index];
+        const questionReviewBlock = document.createElement('div');
+        questionReviewBlock.classList.add('review-block');
+
+        const questionTitle = document.createElement('h3');
+        questionTitle.innerText = `${index + 1}. ${question.question}`;
+        questionReviewBlock.appendChild(questionTitle);
+
+        question.answers.forEach(answer => {
+            const button = document.createElement('button');
+            button.innerText = answer.text;
+            button.classList.add('btn');
+            button.disabled = true; // Make buttons unclickable in the review
+
+            // Check if this option was the user's answer
+            if (answer.text === userAnswerText) {
+                if (answer.correct) {
+                    button.classList.add('correct');
+                    score++;
+                } else {
+                    button.classList.add('wrong');
+                }
+            }
+            // Also highlight the correct answer if the user was wrong
+            if (answer.correct && answer.text !== userAnswerText) {
+                 button.classList.add('correct');
+            }
+            questionReviewBlock.appendChild(button);
+        });
+        resultContainerElement.appendChild(questionReviewBlock);
     });
 
-    if (isCorrect) {
-        selectedButton.classList.add('correct');
-        score++;
-    } else {
-        selectedButton.classList.add('wrong');
-        quizEndedPrematurely = true;
-        const correctButton = Array.from(answerButtonsElement.children).find(button => button.dataset.correct === "true");
-        if (correctButton) {
-            correctButton.classList.add('correct');
-        }
-    }
-    
-    if (quizEndedPrematurely || currentQuestionIndex === quizQuestions.length - 1) {
-        nextButton.innerText = "See Score";
-    }
+    // Add final score
+    const scoreText = document.createElement('h2');
+    scoreText.innerText = `You scored ${score} out of ${quizQuestions.length}`;
+    scoreText.style.textAlign = 'center';
+    scoreText.style.marginTop = '30px';
+    resultContainerElement.prepend(scoreText);
 
+    // Show restart button
+    nextButton.innerText = "Restart Quiz";
     nextButton.classList.remove('hide');
 }
 
-function handleNextButton() {
-    if (quizEndedPrematurely || currentQuestionIndex >= quizQuestions.length - 1) {
-        showResult();
-    } else {
-        currentQuestionIndex++;
-        setNextQuestion();
-    }
-}
-
-function showResult() {
-    resetState();
-    questionTextElement.innerText = '';
-    
-    const questionsAttempted = quizEndedPrematurely ? currentQuestionIndex + 1 : quizQuestions.length;
-    let message = `You scored ${score} out of ${questionsAttempted}.`;
-    
-    if (score === 3) {
-        message += "\nPerfect score! You're a true fan!";
-    } else if (quizEndedPrematurely) {
-        message += "\nBetter luck next time!";
-    }
-
-    resultTextElement.innerText = message;
-    resultTextElement.classList.remove('hide');
-    nextButton.innerText = 'Restart Quiz';
-    nextButton.addEventListener('click', startQuiz, { once: true }); 
-}
-
+// Start the quiz when the script loads
 startQuiz();
