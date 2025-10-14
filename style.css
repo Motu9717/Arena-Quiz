@@ -1,0 +1,122 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 800px;
+    background: linear-gradient(145deg, #282828, #1e1e1e);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    border: 1px solid #333;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 2rem;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.quiz-container {
+    padding: 20px;
+}
+
+#question-text {
+    font-size: 1.6rem;
+    margin-bottom: 2.5rem;
+    color: #B3B3B3;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #333;
+    border: 2px solid #555;
+    color: #FFFFFF;
+    padding: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover:not([disabled]) {
+    background-color: #555;
+    border-color: #777;
+    transform: translateY(-3px);
+}
+
+.btn.correct {
+    background-color: #1DB954;
+    color: #FFFFFF;
+    border-color: #1DB954;
+}
+
+.btn.wrong {
+    background-color: #FF4136;
+    color: #FFFFFF;
+    border-color: #FF4136;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.next-btn {
+    background-color: #1DB954;
+    color: #FFFFFF;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.next-btn:hover {
+    background-color: #1ed760;
+    transform: scale(1.05);
+}
+
+.hide {
+    display: none;
+}
+
+.result {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #1DB954;
+}
+
+/* Responsive design for smaller screens */
+@media (min-width: 576px) {
+    .btn-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
