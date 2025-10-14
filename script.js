@@ -95,3 +95,56 @@ function selectAnswer(e) {
     // Show immediate feedback
     if (isCorrect) {
         selectedButton.classList.add('correct');
+        score++;
+    } else {
+        selectedButton.classList.add('wrong');
+        const correctButton = Array.from(answerButtonsElement.children).find(button => button.dataset.correct === "true");
+        if (correctButton) {
+            correctButton.classList.add('correct');
+        }
+    }
+    
+    // Set button text for the next action
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        nextButton.innerText = "Next Question";
+    } else {
+        nextButton.innerText = "Finish";
+    }
+
+    nextButton.classList.remove('hide');
+}
+
+function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizQuestions.length) {
+        setNextQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    resetState();
+    questionTextElement.style.display = 'none';
+    resultContainerElement.classList.remove('hide');
+    
+    const resultTitle = document.createElement('h2');
+
+    // Show congratulations only if all answers are correct
+    if (score === quizQuestions.length) {
+        resultTitle.innerText = `Congratulations! You scored ${score} out of ${quizQuestions.length}!`;
+    } else {
+        resultTitle.innerText = `You scored ${score} out of ${quizQuestions.length}. Try again!`;
+    }
+    
+    resultContainerElement.appendChild(resultTitle);
+
+    // Prepare restart button
+    nextButton.innerText = "Restart Quiz";
+    nextButton.removeEventListener('click', handleNextButton);
+    nextButton.addEventListener('click', startQuiz);
+    nextButton.classList.remove('hide');
+}
+
+// Start the quiz when the page loads
+startQuiz();
