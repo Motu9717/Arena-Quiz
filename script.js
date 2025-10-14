@@ -1,13 +1,16 @@
 const questionTextElement = document.getElementById('question-text');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const resultContainerElement = document.getElementById('result-container');
-const nextButton = document.getElementById('next-btn');
+const nextButton = document.getElementById('next-btn'); // This is the 'Next Question'/'Finish' button
+const welcomeScreen = document.getElementById('welcome-screen');
+const quizContainer = document.getElementById('quiz');
+const startQuizButton = document.getElementById('start-quiz-btn'); // The button on the welcome screen
 
 let quizQuestions = []; 
 let currentQuestionIndex;
 let score;
 
-// --- YOUR FULL LIST OF 30+ QUESTIONS IS NOW INCLUDED ---
+// Your full list of 30+ questions is now included
 const allQuestions = [
     {
         question: "What is Nemesis’s core offering?",
@@ -299,12 +302,15 @@ const allQuestions = [
     }
 ];
 
-// --- The rest of the quiz logic remains the same ---
+// Event listener for the "Start Quiz" button on the welcome screen
+startQuizButton.addEventListener('click', startQuiz);
 
 function startQuiz() {
-    // This shuffles the entire array of 30+ questions
+    // Hide welcome screen, show quiz
+    welcomeScreen.classList.add('hide');
+    quizContainer.classList.remove('hide');
+
     const shuffledQuestions = allQuestions.sort(() => Math.random() - 0.5);
-    // This takes only the first 3 questions from the shuffled list
     quizQuestions = shuffledQuestions.slice(0, 3);
     
     currentQuestionIndex = 0;
@@ -313,8 +319,11 @@ function startQuiz() {
     resultContainerElement.classList.add('hide');
     resultContainerElement.innerHTML = '';
     questionTextElement.style.display = 'block';
-    nextButton.removeEventListener('click', startQuiz);
-    nextButton.addEventListener('click', handleNextButton);
+    
+    // Ensure the next button correctly handles quiz progression, not restarting
+    nextButton.removeEventListener('click', startQuiz); // Remove old listener if exists
+    nextButton.addEventListener('click', handleNextButton); // Add new one for quiz flow
+    nextButton.classList.add('hide'); // Hide it initially until an answer is selected
 
     setNextQuestion();
 }
@@ -350,7 +359,7 @@ function selectAnswer(e) {
     const isCorrect = selectedButton.dataset.correct === "true";
 
     Array.from(answerButtonsElement.children).forEach(button => {
-        button.disabled = true;
+        button.disabled = true; // Disable all buttons after selection
     });
 
     if (isCorrect) {
@@ -364,44 +373,49 @@ function selectAnswer(e) {
         }
     }
     
+    // Update next button text
     if (currentQuestionIndex < quizQuestions.length - 1) {
         nextButton.innerText = "Next Question";
     } else {
-        nextButton.innerText = "Finish";
+        nextButton.innerText = "Show Results"; // Changed from "Finish" for clarity
     }
 
-    nextButton.classList.remove('hide');
+    nextButton.classList.remove('hide'); // Show the next/finish button
 }
 
 function handleNextButton() {
     currentQuestionIndex++;
     if (currentQuestionIndex < quizQuestions.length) {
-        setNextQuestion();
+        setNextQuestion(); // Move to next question
     } else {
-        showResult();
+        showResult(); // All questions answered, show results
     }
 }
 
 function showResult() {
     resetState();
-    questionTextElement.style.display = 'none';
-    resultContainerElement.classList.remove('hide');
+    questionTextElement.style.display = 'none'; // Hide current question
+    resultContainerElement.classList.remove('hide'); // Show result area
     
     const resultTitle = document.createElement('h2');
 
     if (score === quizQuestions.length) {
-        resultTitle.innerText = `Congratulations! You scored ${score} out of ${quizQuestions.length}!`;
+        resultTitle.innerText = `Congratulations! You answered all ${quizQuestions.length} questions correctly!`;
+        resultTitle.style.color = '#1DB954'; // Green for success
     } else {
-        resultTitle.innerText = `You scored ${score} out of ${quizQuestions.length}. Try again!`;
+        resultTitle.innerText = `You scored ${score} out of ${quizQuestions.length}. Keep trying!`;
+        resultTitle.style.color = '#e94560'; // Red for not perfect score
     }
     
     resultContainerElement.appendChild(resultTitle);
 
+    // Prepare restart button
     nextButton.innerText = "Restart Quiz";
-    nextButton.removeEventListener('click', handleNextButton);
-    nextButton.addEventListener('click', startQuiz);
+    nextButton.removeEventListener('click', handleNextButton); // Remove quiz flow listener
+    nextButton.addEventListener('click', startQuiz); // Add restart listener
     nextButton.classList.remove('hide');
 }
 
-// Start the quiz when the page loads
-startQuiz();
+// Initially, only the welcome screen is visible
+welcomeScreen.classList.remove('hide');
+quizContainer.classList.add('hide');
