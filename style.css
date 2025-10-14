@@ -4,7 +4,12 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #121212;
+    /* CORRECTED THE LINK HERE: Changed .png to .jpeg */
+    background-image: url('https://raw.githubusercontent.com/Motu9717/Arena-Quize/main/Nemesis_Background.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps background fixed on scroll */
     color: #FFFFFF;
     display: flex;
     justify-content: center;
@@ -12,26 +17,70 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 20px;
+    position: relative; 
+}
+
+/* Adds a dark overlay to make text more readable */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1; 
 }
 
 .app-container {
     width: 100%;
     max-width: 800px;
-    background: linear-gradient(145deg, #282828, #1e1e1e);
+    background-color: rgba(30, 30, 60, 0.9); 
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     text-align: center;
-    border: 1px solid #333;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 1; 
 }
 
-h1 {
-    font-size: 2.8rem;
-    margin-bottom: 2rem;
-    color: #FFFFFF;
+/* Styles for the Welcome Screen */
+#welcome-screen {
+    color: white;
+}
+
+#welcome-screen h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #e94560; 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+#welcome-screen p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+#start-quiz-btn {
+    background-color: #1DB954; 
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
     font-weight: 700;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
+#start-quiz-btn:hover {
+    background-color: #1ed760;
+    transform: scale(1.05);
+}
+
+
+/* Quiz Container Styles */
 .quiz-container {
     padding: 20px;
 }
@@ -39,7 +88,7 @@ h1 {
 #question-text {
     font-size: 1.6rem;
     margin-bottom: 2.5rem;
-    color: #B3B3B3;
+    color: #FFFFFF;
 }
 
 .btn-grid {
@@ -50,8 +99,8 @@ h1 {
 }
 
 .btn {
-    background-color: #333;
-    border: 2px solid #555;
+    background-color: rgba(15, 52, 96, 0.8); 
+    border: 2px solid #533483; 
     color: #FFFFFF;
     padding: 18px;
     font-size: 1.1rem;
@@ -62,21 +111,21 @@ h1 {
 }
 
 .btn:hover:not([disabled]) {
-    background-color: #555;
-    border-color: #777;
+    background-color: #533483;
+    border-color: #e94560; 
     transform: translateY(-3px);
 }
 
 .btn.correct {
-    background-color: #1DB954;
-    color: #FFFFFF;
-    border-color: #1DB954;
+    background-color: #28a745; 
+    color: white;
+    border-color: #28a745;
 }
 
 .btn.wrong {
-    background-color: #FF4136;
-    color: #FFFFFF;
-    border-color: #FF4136;
+    background-color: #dc3545; 
+    color: white;
+    border-color: #dc3545;
 }
 
 .controls {
@@ -86,9 +135,9 @@ h1 {
     margin-top: 30px;
 }
 
-.next-btn {
-    background-color: #1DB954;
-    color: #FFFFFF;
+.next-btn { 
+    background-color: #e94560; 
+    color: white;
     padding: 15px 40px;
     font-size: 1.2rem;
     font-weight: 700;
@@ -99,7 +148,7 @@ h1 {
 }
 
 .next-btn:hover {
-    background-color: #1ed760;
+    background-color: #c43a51;
     transform: scale(1.05);
 }
 
@@ -107,11 +156,13 @@ h1 {
     display: none;
 }
 
-.result {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-top: 20px;
-    color: #1DB954;
+.result-container {
+    text-align: center;
+}
+
+.result-container h2 {
+    font-size: 2.2rem;
+    color: #1DB954; 
 }
 
 /* Responsive design for smaller screens */
