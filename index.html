@@ -3,47 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website with Nemesis Background</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            /* CORRECTED a link to the raw image file */
-            background-image: url('https://raw.githubusercontent.com/Motu9717/Arena-Quize/main/Nemesis_Background.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: Arial, sans-serif;
-            color: white; /* Default text color for the page */
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%; /* Take full height of the body */
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box; /* Include padding in the element's total width and height */
-        }
-
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds shadow for better readability */
-        }
-
-        p {
-            font-size: 1.2em;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-        }
-    </style>
+    <title>Nemesis Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to NEMESIS QUIZ!</h1>
-    </div>
-</body>
+    <div class="app-container">
+        <div id="welcome-screen">
+            <h1>Welcome to NEMESIS QUIZ!</h1>
+            <p>Answer 3 questions. Get them all correct to win!</p>
+            <button id="start-quiz-btn" class="next-btn">Start Quiz</button>
+        </div>
 
+        <div class="quiz-container hide" id="quiz">
+            <h2 id="question-text">Question goes here</h2>
+            <div id="answer-buttons" class="btn-grid">
+                </div>
+            <div id="result-container" class="result-container hide">
+                </div>
+            <div class="controls">
+                <button id="next-btn" class="next-btn hide">Next Question</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
 </html>
