@@ -5,7 +5,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     /* CORRECTED THE LINK HERE: Changed .png to .jpeg */
-    background-image: url('https://raw.githubusercontent.com/Motu9717/Arena-Quize/main/Nemesis_Background.jpeg');
+    background-image: url('https://github.com/Motu9717/Arena-Quize/blob/main/Nemesis_Background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
