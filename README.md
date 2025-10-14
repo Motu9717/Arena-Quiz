@@ -1,1 +1,1 @@
-# Arena-Quize
+# Arena-Quiz
