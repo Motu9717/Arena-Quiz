@@ -1,10 +1,11 @@
 const questionTextElement = document.getElementById('question-text');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const resultContainerElement = document.getElementById('result-container');
-const nextButton = document.getElementById('next-btn'); // This is the 'Next Question'/'Finish' button
+const nextButton = document.getElementById('next-btn');
 const welcomeScreen = document.getElementById('welcome-screen');
 const quizContainer = document.getElementById('quiz');
-const startQuizButton = document.getElementById('start-quiz-btn'); // The button on the welcome screen
+const startQuizButton = document.getElementById('start-quiz-btn');
+const bodyElement = document.body; // Reference to the body element
 
 let quizQuestions = []; 
 let currentQuestionIndex;
@@ -302,13 +303,14 @@ const allQuestions = [
     }
 ];
 
-// Event listener for the "Start Quiz" button on the welcome screen
+// Event listener for the "Start Quiz" button
 startQuizButton.addEventListener('click', startQuiz);
 
 function startQuiz() {
-    // Hide welcome screen, show quiz
+    // Hide welcome screen, show quiz, and REMOVE the background image class
     welcomeScreen.classList.add('hide');
     quizContainer.classList.remove('hide');
+    bodyElement.classList.remove('welcome-active');
 
     const shuffledQuestions = allQuestions.sort(() => Math.random() - 0.5);
     quizQuestions = shuffledQuestions.slice(0, 3);
@@ -320,10 +322,9 @@ function startQuiz() {
     resultContainerElement.innerHTML = '';
     questionTextElement.style.display = 'block';
     
-    // Ensure the next button correctly handles quiz progression
-    nextButton.removeEventListener('click', showWelcomeScreen); // Remove old listener if exists
+    nextButton.removeEventListener('click', showWelcomeScreen);
     nextButton.addEventListener('click', handleNextButton);
-    nextButton.classList.add('hide'); // Hide it initially
+    nextButton.classList.add('hide');
 
     setNextQuestion();
 }
@@ -359,7 +360,7 @@ function selectAnswer(e) {
     const isCorrect = selectedButton.dataset.correct === "true";
 
     Array.from(answerButtonsElement.children).forEach(button => {
-        button.disabled = true; // Disable all buttons after selection
+        button.disabled = true;
     });
 
     if (isCorrect) {
@@ -373,46 +374,43 @@ function selectAnswer(e) {
         }
     }
     
-    // Update next button text
     if (currentQuestionIndex < quizQuestions.length - 1) {
         nextButton.innerText = "Next Question";
     } else {
         nextButton.innerText = "Show Results";
     }
 
-    nextButton.classList.remove('hide'); // Show the next/finish button
+    nextButton.classList.remove('hide');
 }
 
 function handleNextButton() {
     currentQuestionIndex++;
     if (currentQuestionIndex < quizQuestions.length) {
-        setNextQuestion(); // Move to next question
+        setNextQuestion();
     } else {
-        showResult(); // All questions answered, show results
+        showResult();
     }
 }
 
 function showResult() {
     resetState();
-    questionTextElement.style.display = 'none'; // Hide current question
-    resultContainerElement.classList.remove('hide'); // Show result area
+    questionTextElement.style.display = 'none';
+    resultContainerElement.classList.remove('hide');
     
     const resultTitle = document.createElement('h2');
 
     if (score === quizQuestions.length) {
         resultTitle.innerText = `Congratulations! You answered all ${quizQuestions.length} questions correctly!`;
-        resultTitle.style.color = '#1DB954'; // Green for success
+        resultTitle.style.color = '#1DB954';
     } else {
         resultTitle.innerText = `You scored ${score} out of ${quizQuestions.length}. Keep trying!`;
-        resultTitle.style.color = '#e94560'; // Red for not perfect score
+        resultTitle.style.color = '#e94560';
     }
     
     resultContainerElement.appendChild(resultTitle);
 
-    // Prepare restart button to go to the welcome screen
     nextButton.innerText = "Play Again";
     nextButton.removeEventListener('click', handleNextButton);
-
     nextButton.addEventListener('click', showWelcomeScreen);
     nextButton.classList.remove('hide');
 }
@@ -420,4 +418,8 @@ function showResult() {
 function showWelcomeScreen() {
     quizContainer.classList.add('hide');
     welcomeScreen.classList.remove('hide');
+    bodyElement.classList.add('welcome-active'); // ADD the background image class back
 }
+
+// Set the initial state when the page loads
+showWelcomeScreen();
