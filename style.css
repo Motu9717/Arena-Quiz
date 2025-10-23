@@ -4,8 +4,7 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    /* Default background is a solid color for the quiz */
-    background-color: #121212;
+    background-color: #121212; /* Solid dark background */
     color: #FFFFFF;
     display: flex;
     justify-content: center;
@@ -14,28 +13,6 @@ body {
     margin: 0;
     padding: 20px;
     position: relative;
-    transition: background-image 0.5s ease-in-out; /* Smooth transition */
-}
-
-/* This class will be added by JavaScript to show the image on the welcome screen */
-body.welcome-active {
-    background-image: url('https://raw.githubusercontent.com/Motu9717/Arena-Quize/main/Nemesis_Background.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* Dark overlay is now tied to the welcome screen's active class */
-body.welcome-active::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: -1;
 }
 
 .app-container {
@@ -49,38 +26,6 @@ body.welcome-active::before {
     border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1;
 }
-
-/* Styles for the Welcome Screen */
-#welcome-screen h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-    color: #e94560;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-}
-
-#welcome-screen p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-}
-
-#start-quiz-btn {
-    background-color: #1DB954;
-    color: white;
-    padding: 15px 40px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-#start-quiz-btn:hover {
-    background-color: #1ed760;
-    transform: scale(1.05);
-}
-
 
 /* Quiz Container Styles */
 .quiz-container {
@@ -119,13 +64,13 @@ body.welcome-active::before {
 }
 
 .btn.correct {
-    background-color: #28a745;
+    background-color: #28a745; /* Green */
     color: white;
     border-color: #28a745;
 }
 
 .btn.wrong {
-    background-color: #dc3545;
+    background-color: #dc3545; /* Red */
     color: white;
     border-color: #dc3545;
 }
@@ -160,10 +105,32 @@ body.welcome-active::before {
 
 .result-container {
     text-align: center;
+    margin-top: 30px;
 }
 
 .result-container h2 {
     font-size: 2.2rem;
+}
+
+/* Feedback Styles */
+#feedback-container {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#feedback-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#correct-answer-display {
+    font-size: 1.1rem;
+    color: #1DB954; /* Green for correct answer hint */
+    font-weight: bold;
 }
 
 /* Responsive design */
