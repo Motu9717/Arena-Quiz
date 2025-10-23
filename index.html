@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nemesis Quiz</title>
+    <title>Nemesis Mini-Quiz</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,22 +11,19 @@
 </head>
 <body>
     <div class="app-container">
-        
-        <div id="welcome-screen">
-            <h1>Welcome to NEMESIS QUIZ!</h1>
-            <p>Answer 3 questions. Get them all correct to win!</p>
-            <button id="start-quiz-btn" class="next-btn">Start Quiz</button>
-        </div>
-
-        <div class="quiz-container hide" id="quiz">
+        <div class="quiz-container" id="quiz">
             <h2 id="question-text">Question goes here</h2>
             <div id="answer-buttons" class="btn-grid">
                 </div>
-            <div id="result-container" class="result-container hide">
-                </div>
+            <div id="feedback-container" class="hide">
+                <p id="feedback-text"></p>
+                <p id="correct-answer-display"></p>
+            </div>
             <div class="controls">
                 <button id="next-btn" class="next-btn hide">Next Question</button>
             </div>
+            <div id="result-container" class="result-container hide">
+                </div>
         </div>
     </div>
     <script src="script.js"></script>
